@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>TerminalV2</title>
+  <meta charset="UTF-8">
+  <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .buttons-column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .button-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 5px;
+        }
+        button {
+            padding: 5px 10px;
+            font-size: 14px;
+            font-family: 'Courier New', Courier, monospace;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: auto;
+            text-align: center;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .button-text {
+            margin-left: 10px;
+            font-size: 14px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+    </style>
+</head>
+<body>
+<div class="container" id="container">
+  <div class="buttons-column">
+    <div th:each="entry : ${map.entrySet()}" class="button-container">
+      <form action="/terminal/enter-a-number" method="post">
+        <input type="hidden" name="selectedWord" th:value="${entry.key}">
+        <button class="button" type="submit" th:text="${entry.key}"></button>
+      </form>
+      <span class="button-text" th:text="${entry.value}"></span>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const container = document.getElementById('container');
+    const buttons = document.querySelectorAll('.button');
+    let maxWidth = 0;
+
+    buttons.forEach(button => {
+      const width = button.offsetWidth;
+      if (width > maxWidth) {
+        maxWidth = width;
+      }
+    });
+    container.style.maxWidth = (maxWidth + 180) + 'px';
+  });
+</script>
+</body>
+</html>
